@@ -76,9 +76,9 @@ module Mongoriver
         handle_insert(db_name, collection_name, data)
       when 'u'
         selector = entry['o2']
-        trigger(:update, db_name, collection_name, selector, data)
+        trigger(:update_one, db_name, collection_name, selector, data)
       when 'd'
-        trigger(:remove, db_name, collection_name, data)
+        trigger(:delete_one, db_name, collection_name, data)
       when 'c'
         assert(collection_name == '$cmd',
                "Command collection name is #{collection_name.inspect} for " \
@@ -97,7 +97,7 @@ module Mongoriver
       if collection_name == 'system.indexes'
         handle_create_index(data)
       else
-        trigger(:insert, db_name, collection_name, data)
+        trigger(:insert_one, db_name, collection_name, data)
       end
     end
 

@@ -35,7 +35,7 @@ describe 'Mongoriver::PersistentTailer' do
   describe 'reading and storing state' do
     it 'should be able to read the written state' do
 
-      @state_collection.expects(:update)
+      @state_collection.expects(:update_one)
       @tailer.save_state(@state)
 
       @state_collection.expects(:find).returns({
@@ -80,7 +80,7 @@ describe 'Mongoriver::PersistentTailer' do
     @mongo_connection.expects(:use).with('admin').returns(admin_db)
 
     # Updates state collection when finish iteration
-    @state_collection.expects(:update)
+    @state_collection.expects(:update_one)
 
     # Oplog collection to return results
     cursor = CursorStub.new

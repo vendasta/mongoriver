@@ -48,9 +48,9 @@ describe 'connected tests' do
 
       op_sequence = sequence('op_sequence')
 
-      @outlet.expects(:insert).once.with(db, collection, doc).in_sequence(op_sequence)
-      @outlet.expects(:update).once.with(db, collection, {'_id' => 'foo'}, updated_doc).in_sequence(op_sequence)
-      @outlet.expects(:remove).once.with(db, collection, {'_id' => 'foo'}).in_sequence(op_sequence)
+      @outlet.expects(:insert_one).once.with(db, collection, doc).in_sequence(op_sequence)
+      @outlet.expects(:update_one).once.with(db, collection, {'_id' => 'foo'}, updated_doc).in_sequence(op_sequence)
+      @outlet.expects(:delete_one).once.with(db, collection, {'_id' => 'foo'}).in_sequence(op_sequence)
 
       @outlet.expects(:create_index).once.with(db, collection, index_keys, {:name => 'bar_1'}).in_sequence(op_sequence)
       @outlet.expects(:drop_index).once.with(db, collection, 'bar_1').in_sequence(op_sequence)
@@ -60,9 +60,9 @@ describe 'connected tests' do
       @outlet.expects(:drop_database).once.with(db) { @stream.stop }.in_sequence(op_sequence)
 
       coll = @mongo.use(db)[collection]
-      coll.insert(doc)
-      coll.update({'_id' => 'foo'}, doc.merge('bar' => 'qux'))
-      coll.remove({'_id' => 'foo'})
+      coll.insert_one(doc)
+      coll.update_one({'_id' => 'foo'}, doc.merge('bar' => 'qux'))
+      coll.delete_one({'_id' => 'foo'})
 
       name = coll.ensure_index(index_keys)
       coll.drop_index(name)
@@ -87,9 +87,9 @@ describe 'connected tests' do
     it 'ignores everything before the operation passed in' do
       name = '_test_mongoriver'
 
-      @mongo.use(name)[name].insert(:a => 5)
+      @mongo.use(name)[name].insert_one(:a => 5)
 
-      @outlet.expects(:insert).never
+      @outlet.expects(:insert_one).never
       @outlet.expects(:drop_database).with(anything) { @stream.stop }
 
       start = @tailer.most_recent_position
@@ -100,17 +100,17 @@ describe 'connected tests' do
     it 'allows passing in a timestamp for the stream following as well' do
       name = '_test_mongoriver2'
 
-      @outlet.expects(:insert).with do |db_name, col_name, value|
+      @outlet.expects(:insert_one).with do |db_name, col_name, value|
         db_name != name || value['record'] == 'value'
       end
 
-      @outlet.expects(:update).with do |db_name, col_name, selector, update|
+      @outlet.expects(:update_one).with do |db_name, col_name, selector, update|
         @stream.stop if update['record'] == 'newvalue'
         db_name != name || update['record'] == 'newvalue'
       end
 
-      @mongo.use(name)[name].insert('record' => 'value')
-      @mongo.use(name)[name].update({'record' => 'value'}, {'record' => 'newvalue'})
+      @mongo.use(name)[name].insert_one('record' => 'value')
+      @mongo.use(name)[name].update_one({'record' => 'value'}, {'record' => 'newvalue'})
       run_stream(@stream, Time.now-3)
     end
   end
