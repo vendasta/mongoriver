@@ -19,4 +19,5 @@ Rake::TestTask.new(:'test-connected') do |t|
   t.test_files = FileList['test/test_*_connected.rb']
 end
 
+task :spec => ['test']
 task :ci => ['test']
