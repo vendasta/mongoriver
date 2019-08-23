@@ -55,6 +55,10 @@ this to resume interrupted tailers so that no information is lost.
 
 ## Version history
 
+### 0.6
+
+Fork and move to Yesware. Correct Mongo 2.0 collection method naming.
+
 ### 0.5
 
 Move from the Moped driver to the native Mongo 2.0 driver.
