@@ -1,4 +1,4 @@
-# Mongoriver [![Build Status](https://travis-ci.org/stripe/mongoriver.svg?branch=master)](https://travis-ci.org/stripe/mongoriver)
+# Mongoriver
 
 mongoriver is a library to monitor updates to your Mongo databases in
 near-realtime. It provides a simple interface for you to take actions
@@ -15,7 +15,7 @@ updates to this oplog. See the [Mongo documentation for its oplog](http://docs.m
 ### Step 1: Create an outlet
 
 You'll need to write a class subclassing
-[Mongoriver::AbstractOutlet](https://github.com/stripe/mongoriver/blob/master/lib/mongoriver/abstract_outlet.rb).
+[Mongoriver::AbstractOutlet](https://github.com/Yesware/mongoriver/blob/master/lib/mongoriver/abstract_outlet.rb).
 
 You can override any of these methods:
 
@@ -54,6 +54,10 @@ this to resume interrupted tailers so that no information is lost.
 
 
 ## Version history
+
+### 0.6
+
+Fork and move to Yesware. Correct Mongo 2.0 collection method naming.
 
 ### 0.5
 

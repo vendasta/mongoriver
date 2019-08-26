@@ -31,7 +31,7 @@ module Mongoriver
     end
 
     def write_state(state)
-      @state_collection.update({:service => @service},
+      @state_collection.update_one({:service => @service},
         {:service => @service, :state => state, :v => 1}, :upsert => true)
     end
   end
