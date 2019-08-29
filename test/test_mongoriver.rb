@@ -21,17 +21,17 @@ describe 'Mongoriver::Stream' do
   end
 
   it 'triggers insert_one' do
-    @outlet.expects(:insert_one).once.with('foo', 'bar', {'_id' => 'baz'})
+    @outlet.expects(:insert).once.with('foo', 'bar', {'_id' => 'baz'})
     @stream.send(:handle_op, create_op({'op'=>'i', 'o'=>{'_id'=>'baz'}}))
   end
 
   it 'triggers update_one' do
-    @outlet.expects(:update_one).once.with('foo', 'bar', {'_id' => 'baz'}, {'a' => 'b'})
+    @outlet.expects(:update).once.with('foo', 'bar', {'_id' => 'baz'}, {'a' => 'b'})
     @stream.send(:handle_op, create_op({'op'=>'u', 'o2'=>{'_id'=>'baz'}, 'o'=>{'a'=>'b'}}))
   end
 
   it 'triggers delete_one' do
-    @outlet.expects(:delete_one).once.with('foo', 'bar', {'_id' => 'baz'})
+    @outlet.expects(:remove).once.with('foo', 'bar', {'_id' => 'baz'})
     @stream.send(:handle_op, create_op({'op'=>'d', 'b'=>true, 'o'=>{'_id'=>'baz'}}))
   end
 

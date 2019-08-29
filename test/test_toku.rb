@@ -37,13 +37,13 @@ describe 'Mongoriver::Toku' do
 
     it 'triggers insert_one' do
       # collection.insert_one({a: 5})
-      @outlet.expects(:insert_one).once.with('foo', 'bar', {'_id' => 'baz', 'a' => 5})
+      @outlet.expects(:insert).once.with('foo', 'bar', {'_id' => 'baz', 'a' => 5})
       @stream.send(:handle_op, convert({'op'=>'i', 'o'=>{'_id'=>'baz', 'a' => 5}}))
     end
 
     it 'triggers update (ur)' do
       # collection.update_one({a:true}, {'$set' => {c: 7}}, multi: true)
-      @outlet.expects(:update_one).once.with('foo', 'bar', {'_id' => 'baz'}, {'$set' => {'c' => 7}})
+      @outlet.expects(:update).once.with('foo', 'bar', {'_id' => 'baz'}, {'$set' => {'c' => 7}})
 
       @stream.send(:handle_op, convert({
         'op' => 'ur',
@@ -55,7 +55,7 @@ describe 'Mongoriver::Toku' do
 
     it 'triggers update (u)' do
       # collection.update_one({a:true}, {'b' => 2})
-      @outlet.expects(:update_one).once.with('foo', 'bar', {'_id' => 'baz'}, {'_id' => 'baz', 'b' => 2})
+      @outlet.expects(:update).once.with('foo', 'bar', {'_id' => 'baz'}, {'_id' => 'baz', 'b' => 2})
 
       @stream.send(:handle_op, convert({
         'op' => 'u',
@@ -67,7 +67,7 @@ describe 'Mongoriver::Toku' do
 
     it 'triggers remove' do
       # collection.delete({a:5})
-      @outlet.expects(:delete_one).once.with('foo', 'bar', {'_id' => 'baz'})
+      @outlet.expects(:remove).once.with('foo', 'bar', {'_id' => 'baz'})
 
       @stream.send(:handle_op, convert({
         'op' => 'd',
