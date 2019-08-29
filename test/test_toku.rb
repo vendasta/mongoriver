@@ -67,7 +67,7 @@ describe 'Mongoriver::Toku' do
 
     it 'triggers remove' do
       # collection.delete({a:5})
-      @outlet.expects(:delete_one).once.with('foo', 'bar', {'_id' => 'baz'})
+      @outlet.expects(:remove).once.with('foo', 'bar', {'_id' => 'baz'})
 
       @stream.send(:handle_op, convert({
         'op' => 'd',
