@@ -17,16 +17,18 @@ module Mongoriver
 
     def read_state
       row = @state_collection.find(:service => @service).first
-      return nil unless row && row.is_a?(Array)
-      if row[0] == 'state'
-        return row[1]
-      else
+      return nil unless row
+
+      case row['v']
+      when nil
         log.warn("Old style timestamp found in database. Converting!")
-        ts = Time.at(row[1].seconds)
+        ts = Time.at(row['timestamp'].seconds)
         return {
           'position' => most_recent_position(ts),
           'time' => ts
         }
+      when 1
+        return row['state']
       end
     end
 
