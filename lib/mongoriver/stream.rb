@@ -146,6 +146,8 @@ module Mongoriver
         trigger(:rename_collection, db_name, old_collection_name, new_collection_name)
       elsif data['dropDatabase'] == 1
         trigger(:drop_database, db_name)
+      elsif updated_collection = data['collMod']
+        log.warn('DROPPING collMod for collection "#{updated_collection}": #{data.inspect}')
       else
         raise "Unrecognized command #{data.inspect}"
       end
