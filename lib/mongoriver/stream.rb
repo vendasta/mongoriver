@@ -102,7 +102,7 @@ module Mongoriver
     end
 
     def handle_create_index(spec)
-      db_name, collection_name = parse_ns(spec['ns'])
+      db_name, collection_name = parse_ns(spec['ns'] || spec['createIndexes'])
       index_key = spec['key'].map do |field, dir|
         if dir.is_a?(Numeric)
           [field, dir.round]
@@ -120,7 +120,7 @@ module Mongoriver
                                           "supported, not v=#{value.inspect}: " \
                                           "spec=#{spec.inspect}")
           end
-        when 'ns', 'key', '_id' # do nothing
+        when 'ns', 'key', '_id', 'createIndexes' # do nothing
         else
           options[key.to_sym] = value
         end
@@ -146,6 +146,10 @@ module Mongoriver
         trigger(:rename_collection, db_name, old_collection_name, new_collection_name)
       elsif data['dropDatabase'] == 1
         trigger(:drop_database, db_name)
+      elsif updated_collection = data['createIndexes']
+        handle_create_index(data)
+      elsif updated_collection = data['collMod']
+        log.warn('DROPPING collMod for collection "#{updated_collection}": #{data.inspect}')
       else
         raise "Unrecognized command #{data.inspect}"
       end
