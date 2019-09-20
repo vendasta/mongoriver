@@ -95,7 +95,7 @@ module Mongoriver
 
     def handle_insert(db_name, collection_name, data)
       if collection_name == 'system.indexes'
-        log.warn("INDEX CREATE: DB=#{db_name}, COLLECTION=#{collection_name}, DATA=#{data.inspect}")
+        puts "INDEX CREATE: DB=#{db_name}, COLLECTION=#{collection_name}, DATA=#{data.inspect}"
         handle_create_index(data)
       else
         trigger(:insert, db_name, collection_name, data)
