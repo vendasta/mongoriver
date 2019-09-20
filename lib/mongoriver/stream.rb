@@ -95,7 +95,7 @@ module Mongoriver
 
     def handle_insert(db_name, collection_name, data)
       if collection_name == 'system.indexes'
-        puts "INDEX CREATE: DB=#{db_name}, COLLECTION=#{collection_name}, DATA=#{data.inspect}"
+        log.info("INDEX CREATE: DB=#{db_name}, COLLECTION=#{collection_name}, DATA=#{data.inspect}")
         handle_create_index(data)
       else
         trigger(:insert, db_name, collection_name, data)
@@ -118,7 +118,8 @@ module Mongoriver
         when 'v'
           unless value == 1
             raise NotImplementedError.new("Only v=1 indexes are supported, " \
-                                          "not v=#{value.inspect}")
+                                          "not v=#{value.inspect}: spec=" \
+                                          "#{spec.inspect}")
           end
         when 'ns', 'key', '_id' # do nothing
         else
