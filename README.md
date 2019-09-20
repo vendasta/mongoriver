@@ -55,26 +55,31 @@ this to resume interrupted tailers so that no information is lost.
 
 ## Version history
 
-### 1.1
+### 1.2.0
+
+Support `createIndexes` command (it's just another way of creating indexes),
+recognize but drop `collMod` commands.
+
+### 1.1.0
 
 Allow both v1 and v2 indexes when handling index creation ops.
 
-### 1.0
+### 1.0.0
 
 Fix persistent tailers read state approach.
 
-### 0.7
+### 0.7.0
 
 Fix outlet method nomenclature to keep compatibility with pre-existing API.
 
-### 0.6
+### 0.6.0
 
 Fork and move to Yesware. Correct Mongo 2.0 collection method naming.
 
-### 0.5
+### 0.5.0
 
 Move from the Moped driver to the native Mongo 2.0 driver.
 
-### 0.4
+### 0.4.0
 
 Add support for [tokumx](http://www.tokutek.com/products/tokumx-for-mongodb/). Backwards incompatible changes to persistent tailers to accomodate that. See [UPGRADING.md](UPGRADING.md).
