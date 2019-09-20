@@ -55,6 +55,18 @@ this to resume interrupted tailers so that no information is lost.
 
 ## Version history
 
+### 1.1
+
+Allow both v1 and v2 indexes when handling index creation ops.
+
+### 1.0
+
+Fix persistent tailers read state approach.
+
+### 0.7
+
+Fix outlet method nomenclature to keep compatibility with pre-existing API.
+
 ### 0.6
 
 Fork and move to Yesware. Correct Mongo 2.0 collection method naming.
