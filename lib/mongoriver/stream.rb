@@ -115,9 +115,10 @@ module Mongoriver
       spec.each do |key, value|
         case key
         when 'v'
-          unless value == 1
-            raise NotImplementedError.new("Only v=1 indexes are supported, " \
-                                          "not v=#{value.inspect}")
+          unless value == 1 || value == 2
+            raise NotImplementedError.new("Only v=1 or v=2 indexes are " \
+                                          "supported, not v=#{value.inspect}: " \
+                                          "spec=#{spec.inspect}")
           end
         when 'ns', 'key', '_id' # do nothing
         else
