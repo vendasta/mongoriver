@@ -126,7 +126,7 @@ module Mongoriver
 
       cursor_type = opts[:dont_wait] ? :tailable : :tailable_await
       oplog_replay = query['ts'] ? true : false
-      mongo_opts = {:timeout => false, :cursor_type => cursor_type, :oplog_replay => oplog_replay}.merge(opts[:mongo_opts] || {})
+      mongo_opts = {:max_time_ms => 1000, :cursor_type => cursor_type, :oplog_replay => oplog_replay}.merge(opts[:mongo_opts] || {})
       @cursor = oplog_collection.find(query, mongo_opts).to_enum.lazy
     end
 
@@ -197,6 +197,17 @@ module Mongoriver
         true
       rescue StopIteration
         false
+      rescue Mongo::Error::OperationFailure => ex
+        # This is what's raised when there's nothing on the cursor to return
+        # and we've exceeded the wait time set by the :max_time_ms option.
+        # Allowing the cursor operation to complete with a time-out lets us
+        # shut down the tailer cleanly (and if there's no request to do so,
+        # we'll create a new cursor for the next pass).
+        if ex.message.match(/operation exceeded time limit/)
+          false
+        else
+          raise ex
+        end
       end
     end
   end

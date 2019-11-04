@@ -46,7 +46,12 @@ mongo = Mongo::MongoClient.from_uri(mongo_uri)
 tailer = Mongoriver::Tailer.new([mongo], :existing)
 outlet = YourOutlet.new(your_params) # Your subclass of Mongoriver::AbstractOutlet here
 stream = Mongoriver::Stream.new(tailer, outlet)
+# install a shutdown handler so we can make sure to stop things cleanly
+trap('TERM') do
+  stream.stop
+end
 stream.run_forever(starting_timestamp)
+tailer.save_state
 ```
 
 `starting_timestamp` here is the time you want the tailer to start at. We use
@@ -54,6 +59,13 @@ this to resume interrupted tailers so that no information is lost.
 
 
 ## Version history
+
+### 1.2.1
+
+Allow the oplog cursor peek operation used by the tailer to be interrupted
+by adding a `max_time_ms` option to the query (which has the side effect of
+the wait for the next oplog item interruptible as well).  Also, handle the
+error this returns and turn it into a `false` return to wrap up the stream.
 
 ### 1.2.0
 
