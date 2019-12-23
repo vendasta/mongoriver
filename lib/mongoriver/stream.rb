@@ -150,6 +150,8 @@ module Mongoriver
         handle_create_index(data)
       elsif updated_collection = data['collMod']
         log.warn('DROPPING collMod for collection "#{updated_collection}": #{data.inspect}')
+      elsif data['applyOps']
+        log.info('Ignoring: #{data.inspect}')
       else
         raise "Unrecognized command #{data.inspect}"
       end
