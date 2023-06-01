@@ -60,6 +60,10 @@ this to resume interrupted tailers so that no information is lost.
 
 ## Version history
 
+### 2.0.0
+
+Pin mocha requirement to 1.X, seems to be the only version that works with the current Ruby version and libs
+
 ### 1.2.1
 
 Allow the oplog cursor peek operation used by the tailer to be interrupted
