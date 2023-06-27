@@ -60,9 +60,9 @@ this to resume interrupted tailers so that no information is lost.
 
 ## Version history
 
-### 2.0.0
+### 1.3.0
 
-Pin mocha requirement to 1.X, seems to be the only version that works with the current Ruby version and libs
+Ignore `applyOps` command instead of throwing error.
 
 ### 1.2.1
 
@@ -98,4 +98,4 @@ Move from the Moped driver to the native Mongo 2.0 driver.
 
 ### 0.4.0
 
-Add support for [tokumx](http://www.tokutek.com/products/tokumx-for-mongodb/). Backwards incompatible changes to persistent tailers to accomodate that. See [UPGRADING.md](UPGRADING.md).
+Add support for [tokumx](http://www.tokutek.com/products/tokumx-for-mongodb/). Backwards incompatible changes to persistent tailers to accommodate that. See [UPGRADING.md](UPGRADING.md).
