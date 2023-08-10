@@ -99,3 +99,4 @@ Move from the Moped driver to the native Mongo 2.0 driver.
 ### 0.4.0
 
 Add support for [tokumx](http://www.tokutek.com/products/tokumx-for-mongodb/). Backwards incompatible changes to persistent tailers to accommodate that. See [UPGRADING.md](UPGRADING.md).
+
