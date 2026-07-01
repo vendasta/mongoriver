@@ -1,0 +1,6 @@
+services:
+  - name: mongoriver
+    owner: honey-badger
+    language: ruby
+    nonServiceType: library
+    description: "A library for writing MongoDB oplog tailers."
